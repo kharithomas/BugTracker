@@ -14,7 +14,7 @@
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="index.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
@@ -22,21 +22,21 @@
 
       <!-- Nav Item - My Projects -->
       <li class="nav-item">
-        <a class="nav-link" href="index.php">
+        <a class="nav-link" href="projects.php">
           <i class="fa fa-tasks"></i>
           <span>My Projects</span></a>
       </li>
 
       <!-- Nav Item - My Tickets -->
       <li class="nav-item">
-        <a class="nav-link" href="index.php">
+        <a class="nav-link" href="tickets.php">
           <i class="fas fa-ticket-alt"></i>
           <span>My Tickets</span></a>
       </li>
 
       <!-- Nav Item - Manage Project Users -->
       <li class="nav-item">
-        <a class="nav-link" href="index.php">
+        <a class="nav-link" href="manage_roles.php">
           <i class="fas fa-users"></i>
           <span>Manage Project Users</span></a>
       </li>
@@ -152,7 +152,7 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.php">Logout</a>
+          <a class="btn btn-primary" href="./logout.php">Logout</a>
         </div>
       </div>
     </div>
