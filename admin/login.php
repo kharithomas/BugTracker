@@ -1,3 +1,93 @@
+<?php
+// Initialize the session
+session_start();
+ 
+// Check if the user is already logged in, if yes then redirect him to welcome page
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+    header("location: index.php");
+    exit;
+}
+ 
+// Include config file
+require_once "./../connections/config.php";
+ 
+// Define variables and initialize with empty values
+$username = $password = "";
+$username_err = $password_err = "";
+ 
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+ 
+    // Check if username is empty
+    if(empty(trim($_POST["username"]))){
+        $username_err = "Please enter username.";
+    } else{
+        $username = trim($_POST["username"]);
+    }
+    
+    // Check if password is empty
+    if(empty(trim($_POST["password"]))){
+        $password_err = "Please enter your password.";
+    } else{
+        $password = trim($_POST["password"]);
+    }
+    
+    // Validate credentials
+    if(empty($username_err) && empty($password_err)){
+        // Prepare a select statement
+        $sql = "SELECT id, username, password FROM users WHERE username = ?";
+        
+        if($stmt = $mysqli->prepare($sql)){
+            // Bind variables to the prepared statement as parameters
+            $stmt->bind_param("s", $param_username);
+            
+            // Set parameters
+            $param_username = $username;
+            
+            // Attempt to execute the prepared statement
+            if($stmt->execute()){
+                // Store result
+                $stmt->store_result();
+                
+                // Check if username exists, if yes then verify password
+                if($stmt->num_rows == 1){                    
+                    // Bind result variables
+                    $stmt->bind_result($id, $username, $hashed_password);
+                    if($stmt->fetch()){
+                        if(password_verify($password, $hashed_password)){
+                            // Password is correct, so start a new session
+                            session_start();
+                            
+                            // Store data in session variables
+                            $_SESSION["loggedin"] = true;
+                            $_SESSION["id"] = $id;
+                            $_SESSION["username"] = $username;                            
+                            
+                            // Redirect user to welcome page
+                            header("location: index.php");
+                        } else{
+                            // Display an error message if password is not valid
+                            $password_err = "The password you entered was not valid.";
+                        }
+                    }
+                } else{
+                    // Display an error message if username doesn't exist
+                    $username_err = "No account found with that username.";
+                }
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+
+            // Close statement
+            $stmt->close();
+        }
+    }
+    
+    // Close connection
+    $mysqli->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,12 +130,12 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
-                  <form class="user">
+                  <form class="user"action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                      <input type="text" name="username" class="form-control form-control-user" id="username" placeholder="Username" required>
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                      <input type="password" name="password" class="form-control form-control-user" id="password" placeholder="Password" required>
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
@@ -53,16 +143,16 @@
                         <label class="custom-control-label" for="customCheck">Remember Me</label>
                       </div>
                     </div>
-                    <a href="index.php" class="btn btn-primary btn-user btn-block">
-                      Login
-                    </a>
-                    <hr>
-                    <a href="index.php" class="btn btn-google btn-user btn-block">
+                    <div class="form-group">
+                      <input type="submit" class="btn btn-primary" value="Login">
+                    </div>
+                    <!-- <hr>
+                    <a href="#" class="btn btn-google btn-user btn-block">
                       <i class="fab fa-google fa-fw"></i> Login with Google
                     </a>
-                    <a href="index.php" class="btn btn-facebook btn-user btn-block">
+                    <a href="#" class="btn btn-facebook btn-user btn-block">
                       <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                    </a>
+                    </a> -->
                   </form>
                   <hr>
                   <div class="text-center">
