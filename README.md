@@ -4,7 +4,7 @@ Bug Sniffer is an open source bug tracking tool designed to help programmers man
 
 <!-- ## Demo
 
-[![BugSniffer Demo](https://startbootstrap.com/assets/img/screenshots/themes/sb-admin-2.png)](https://blackrockdigital.github.io/startbootstrap-sb-admin-2/) -->
+[![Bug Sniffer Demo](https://startbootstrap.com/assets/img/screenshots/themes/sb-admin-2.png)](https://blackrockdigital.github.io/startbootstrap-sb-admin-2/) -->
 
 
 ## Installation and Usage

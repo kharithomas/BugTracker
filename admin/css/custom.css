@@ -1,1 +1,12 @@
 /* Custom CSS stylesheet for any changes */
+
+.fa-trash {
+    color: #E74A3B;
+}
+
+.section-title {
+    font-size: 14px;
+    color: #222 !important;
+    font-weight: bold;
+    text-transform: uppercase;
+}

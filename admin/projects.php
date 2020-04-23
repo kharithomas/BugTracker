@@ -11,7 +11,7 @@
   include('./includes/header.php'); 
   include('./includes/navbar.php');
   include_once('./../connections/config.php');
-  
+    
 
 ?>
 
@@ -36,8 +36,9 @@
           <div class="row">
           <div class="col-md-12">
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Create A New Project</a>
+          <a href="create_project.php" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Create A New Project</a>
           </div>
+          <div class="card shadow mb-4">
             <?php
                 // Attempt select query execution
                 $sql = "SELECT * FROM projects";
@@ -57,10 +58,9 @@
                                     echo "<td>" . $row['name'] . "</td>";
                                     echo "<td>" . $row['description'] . "</td>";
                                     echo "<td>";
-                                        echo "<a href='update.php?id=". $row['id'] ."' title='Update Record' data-toggle='tooltip'>
-                                        <i class='fas fa-pencil-alt text-yellow px-2'></i></a>";
-                                        
-                                        echo "<a href='delete.php?id=". $row['id'] ."' title='Delete Record' data-toggle='tooltip'><i class='fas fa-trash text-red px-2'></i></a>";
+                                        echo "<a href='update_project.php?id=". $row['id'] ."' title='Update Record' data-toggle='tooltip'>
+                                        <i class='fas fa-pencil-alt text-yellow px-2'></i>Edit</a>";
+                                        echo "<a href='delete.php?id=". $row['id'] ."&desc=p' title='Delete Record' data-toggle='tooltip'><i class='fas fa-trash text-red px-2'></i>Remove</a>";
                                         
                                     echo "</td>";
                                 echo "</tr>";
@@ -79,6 +79,7 @@
             // Close connection
             $mysqli->close();
             ?>
+            </div>
         </div>
             </div>
 
