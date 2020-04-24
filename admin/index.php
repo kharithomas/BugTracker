@@ -2,6 +2,9 @@
   // Initialize the session
   session_start();
 
+  // Include config file
+  require_once "./../connections/config.php";
+
   // Check if the user is logged in, if not then redirect him to login page
   if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       header("location: login.php");
@@ -42,8 +45,15 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Open Projects (Monthly)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">2500</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Open Projects</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <?php 
+                          $query = "SELECT COUNT(*) AS total FROM projects"; 
+                          $result = mysqli_query($mysqli, $query) or die ( mysqli_error());
+                          $row = mysqli_fetch_assoc($result);
+                          echo $row['total'];
+                        ?>
+                      </div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -60,7 +70,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo rand(750, 1000); ?></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -79,12 +89,19 @@
                       <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Bugs Fixed</div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                            <?php 
+                              $query = "SELECT COUNT(*) AS total FROM tickets WHERE status='closed'"; 
+                              $result = mysqli_query($mysqli, $query) or die ( mysqli_error());
+                              $row = mysqli_fetch_assoc($result);
+                              echo $row['total'];
+                            ?>
+                          </div>
                         </div>
                         <div class="col">
-                          <div class="progress progress-sm mr-2">
+                          <!-- <div class="progress progress-sm mr-2">
                             <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
+                          </div> -->
                         </div>
                       </div>
                     </div>
@@ -103,7 +120,14 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Open Tickets</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <?php 
+                          $query = "SELECT COUNT(*) AS total FROM tickets"; 
+                          $result = mysqli_query($mysqli, $query) or die ( mysqli_error());
+                          $row = mysqli_fetch_assoc($result);
+                          echo $row['total'];
+                        ?>
+                      </div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-comments fa-2x text-gray-300"></i>

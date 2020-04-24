@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2020 at 01:11 AM
+-- Generation Time: Apr 24, 2020 at 09:05 PM
 -- Server version: 8.0.18
 -- PHP Version: 7.3.11
 
@@ -41,11 +41,11 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `name`, `email`, `role`, `p_id`) VALUES
-(1, 'John Smith', 'johnsmith@hotmail.com', 'manager', 1),
-(2, 'Dan Stevenson', 'danstevenson@aol.com', 'admin', 2),
-(3, 'Jane Doe', 'janedoe@ymail.com', 'tech', 2),
-(4, 'Erika Peterson', 'erikapeterson@gmail.com', 'tech', 3),
-(5, 'Matt Greene', 'mattgreene@yahoo.com', 'tech', 1);
+(1, 'John Smith', 'johnsmith@hotmail.com', '2', 1),
+(2, 'Dan Stevenson', 'danstevenson@aol.com', '1', 2),
+(3, 'Jane Doe', 'janedoe@ymail.com', '3', 2),
+(4, 'Erika Peterson', 'erikapeterson@gmail.com', '3', 3),
+(5, 'Matt Greene', 'mattgreene@yahoo.com', '3', 1);
 
 -- --------------------------------------------------------
 
@@ -67,7 +67,8 @@ INSERT INTO `projects` (`id`, `name`, `description`) VALUES
 (1, 'Half Life 3', 'A totally awesome game that will never come to light, thanks Gaben.'),
 (2, 'Bully 2', 'One could only hope Rockstar does not ruin this with microtransactions.'),
 (3, 'Dead Space 4', 'Should this even come out? Hmm hopefully its better than 3.'),
-(4, 'GTA 6', 'Yep, you know its coming soon. ');
+(4, 'GTA 6', 'Yep, you know its coming soon. '),
+(9, 'Gun Blaster 3', 'The newest game to never hit market');
 
 -- --------------------------------------------------------
 
@@ -86,21 +87,9 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `name`) VALUES
 (1, 'admin'),
-(2, 'manager'),
-(3, 'tech');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ticketComment`
---
-
-CREATE TABLE `ticketComment` (
-  `t_id` int(11) NOT NULL,
-  `message` varchar(255) NOT NULL,
-  `date_created` datetime DEFAULT CURRENT_TIMESTAMP,
-  `author` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+(2, 'project manager'),
+(3, 'developer'),
+(4, 'submitter');
 
 -- --------------------------------------------------------
 
@@ -125,9 +114,75 @@ CREATE TABLE `tickets` (
 --
 
 INSERT INTO `tickets` (`id`, `p_id`, `name`, `submitter`, `status`, `priority`, `type`, `date_created`, `date_modified`) VALUES
-(1, 2, 'Fix AI auto aim bug', 1, 'open', 'Med', 'bug', '2020-04-21 19:00:40', '2020-04-21 19:00:40'),
+(1, 2, 'Fix AI auto aim bug', 1, 'open', 'Low', 'bug', '2020-04-21 19:00:40', '2020-04-21 19:00:40'),
 (2, 4, 'Remove hidden mission', 4, 'open', 'Low', 'bug', '2020-04-21 19:00:40', '2020-04-21 19:00:40'),
-(3, 1, 'Change end game boss', 5, 'open', 'High', 'bug', '2020-04-21 19:00:40', '2020-04-21 19:00:40');
+(3, 1, 'Change end game boss', 5, 'open', 'Low', 'bug', '2020-04-21 19:00:40', '2020-04-21 19:00:40'),
+(4, 1, 'fix dem bugs', 3, 'open', 'low', 'type', '2020-04-22 00:00:00', '2020-04-22 00:00:00'),
+(5, 2, 'Add more GUNS!', 2, 'open', 'Med', 'exploit', '2020-04-22 14:46:13', '2020-04-22 14:46:13'),
+(9, 1, 'Broken Code', 5, 'open', 'Low', 'bug', '2020-04-22 18:27:32', '2020-04-22 18:27:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ticket_attachment`
+--
+
+CREATE TABLE `ticket_attachment` (
+  `id` int(11) NOT NULL,
+  `t_id` int(11) NOT NULL,
+  `image` varchar(100) NOT NULL,
+  `uploader` int(11) NOT NULL,
+  `image_text` text CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+  `date_created` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ticket_attachment`
+--
+
+INSERT INTO `ticket_attachment` (`id`, `t_id`, `image`, `uploader`, `image_text`, `date_created`) VALUES
+(9, 1, 'milkiyas.JPG', 1, '', '2020-04-24 15:46:25'),
+(10, 1, '', 1, '', '2020-04-24 15:46:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ticket_comment`
+--
+
+CREATE TABLE `ticket_comment` (
+  `id` int(11) NOT NULL,
+  `t_id` int(11) NOT NULL,
+  `commenter` int(11) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `date_created` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ticket_comment`
+--
+
+INSERT INTO `ticket_comment` (`id`, `t_id`, `commenter`, `message`, `date_created`) VALUES
+(1, 2, 3, 'Looking good', '2020-04-23 00:00:00'),
+(2, 2, 2, 'Add more color to the game', '2020-04-24 18:28:02'),
+(4, 1, 2, 'I will work on this right now', '2020-04-24 18:37:58'),
+(5, 2, 2, 'Hey there', '2020-04-24 20:31:59'),
+(6, 1, 2, 'Here\'s my comment', '2020-04-24 20:46:46'),
+(7, 1, 2, 'Here\'s my comment', '2020-04-24 20:47:09'),
+(8, 1, 2, 'Here\'s my comment', '2020-04-24 20:49:48');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ticket_history`
+--
+
+CREATE TABLE `ticket_history` (
+  `id` int(11) NOT NULL,
+  `t_id` int(11) NOT NULL,
+  `submitter` varchar(100) NOT NULL,
+  `updated` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -148,7 +203,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `role`) VALUES
-(2, 'test', '$2y$10$WyUT2bSyd38VWqbioTiV1ObHgv3Md33bVcG.snsE85IsaXfoPfRWG', '2020-04-21 19:38:17', 'admin');
+(1, 'test', '$2y$10$cvrYdMaVqPRGWHMBjVsne.NBgYJlGmW8vNczfm1POlxvJg19yIKLC', '2020-04-23 12:39:30', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -179,11 +234,28 @@ ALTER TABLE `tickets`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `ticket_attachment`
+--
+ALTER TABLE `ticket_attachment`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ticket_comment`
+--
+ALTER TABLE `ticket_comment`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ticket_history`
+--
+ALTER TABLE `ticket_history`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -199,25 +271,43 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `ticket_attachment`
+--
+ALTER TABLE `ticket_attachment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `ticket_comment`
+--
+ALTER TABLE `ticket_comment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `ticket_history`
+--
+ALTER TABLE `ticket_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

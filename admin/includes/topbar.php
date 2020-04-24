@@ -154,7 +154,7 @@
       <span class="mr-2 d-none d-lg-inline text-gray-600 small">
       <?php echo $_SESSION["username"];?>
       </span>
-      <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+      <img class="img-profile rounded-circle" src="./img/profile.png">
     </a>
     <!-- Dropdown - User Information -->
     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

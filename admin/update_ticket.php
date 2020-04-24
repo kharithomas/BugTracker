@@ -63,9 +63,16 @@ include('./includes/navbar.php');
                                 $type =$_REQUEST['type'];
                                 $date_modified = date('Y-m-d H:i:s');
 
+                                // update this ticket
                                 $update="UPDATE tickets SET p_id='".$p_id."', name='".$name."', submitter='".$submitter."', status='".$status."', priority='".$priority."', type='".$type."' WHERE id='".$id."'";
 
+                                // add a change into the ticket history table for this ticket
+                                $update="UPDATE tickets SET p_id='".$p_id."', name='".$name."', submitter='".$submitter."', status='".$status."', priority='".$priority."', type='".$type."' WHERE id='".$id."'";
+
+                                $insert = "INSERT INTO `ticket_history`(`t_id`, `submitter`, `updated`) VALUES ($id, $submitter, $date_modified)";
+
                                 mysqli_query($mysqli, $update) or die(mysqli_error());
+                                mysqli_query($mysqli, $insert) or die(mysqli_error());
 
                             } else { ?>
                                 <form action="" method="post" name="form">
